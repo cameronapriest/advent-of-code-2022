@@ -16,7 +16,7 @@
 #define UPPERCASE_PRIORITY_OFFSET 38
 
 void parseFilePartOne(FILE *inputFile);
-int mapPriority(int itemType);
+int mapPriority(char itemType);
 
 void parseFilePartTwo(FILE *inputFile);
 int findPriorityOfMatchingTriplet(char rucksackGroup[3][MAX_RUCKSACK_SIZE]);
@@ -60,7 +60,7 @@ void parseFilePartOne(FILE *inputFile) {
         for (int i = 0; i < compartmentSize; i++) {
             for (int j = compartmentSize; j < compartmentSize * 2; j++) {
                 if (rucksack[i] == rucksack[j]) {
-                    sumOfPriorities += mapPriority((int) rucksack[i]);
+                    sumOfPriorities += mapPriority(rucksack[i]);
                     goto breakPoint;
                 }
             }
@@ -72,7 +72,7 @@ void parseFilePartOne(FILE *inputFile) {
     printf("priority sums: %d\n", sumOfPriorities);
 }
 
-int mapPriority(int itemType) {
+int mapPriority(char itemType) {
     if (itemType >= 'a' && itemType <= 'z') {
         return (itemType - LOWERCASE_PRIORITY_OFFSET);
 

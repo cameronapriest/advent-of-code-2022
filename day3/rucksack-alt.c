@@ -19,7 +19,7 @@
 
 void parseFilePartOne(FILE *inputFile);
 void parseFilePartTwo(FILE *inputFile);
-int mapPriority(int itemType);
+int mapPriority(char itemType);
 
 
 int main(void) {
@@ -71,7 +71,7 @@ void parseFilePartOne(FILE *inputFile) {
     printf("priority sums: %d\n", sumOfPriorities);
 }
 
-int mapPriority(int itemType) {
+int mapPriority(char itemType) {
     if (itemType >= 'a' && itemType <= 'z') {
         return (itemType - LOWERCASE_PRIORITY_OFFSET);
 
