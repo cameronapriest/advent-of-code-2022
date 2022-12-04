@@ -51,6 +51,7 @@ void parseFilePartOne(FILE *inputFile) {
     char rucksack[MAX_RUCKSACK_SIZE];
     int compartmentSize;
     int sumOfPriorities = 0;
+    char *itemType;
 
     while (fgets(rucksack, MAX_RUCKSACK_SIZE, inputFile)) {
         compartmentSize = (strlen(rucksack) - 1) / 2;
@@ -65,6 +66,14 @@ void parseFilePartOne(FILE *inputFile) {
                 }
             }
         }
+
+        /* less readable, I think; I'll leave it commented out as an alternative */
+        /* for (int i = 0; i < compartmentSize; i++) {
+            if ((itemType = strchr(&rucksack[compartmentSize], rucksack[i])) != NULL) {
+                sumOfPriorities += mapPriority(rucksack[i]);
+                goto breakPoint;
+            }
+        } */
         
         breakPoint: continue;
     }
@@ -102,17 +111,17 @@ void parseFilePartTwo(FILE *inputFile) {
 }
 
 int findPriorityOfMatchingTriplet(char rucksackGroup[3][MAX_RUCKSACK_SIZE]) {
-    for (int i = 0; i < (int) (strlen(rucksackGroup[0]) - 1); i++) {
-        for (int j = 0; j < (int) (strlen(rucksackGroup[1]) - 1); j++) {
-            for (int k = 0; k < (int) (strlen(rucksackGroup[2]) - 1); k++) {
+    char *itemTypeGroupTwo;
+    char *itemTypeGroupThree;
+    int potentialBadge;
+    
+    /* find matching triplet of item type across all three rucksacks in the group */
+    for (int i = 0; i < (int) strlen(rucksackGroup[0]) - 1; i++) {
+        potentialBadge = (int) rucksackGroup[0][i];
 
-                /* find matching triplet of item type across  
-                   all three rucksacks in the group */
-                if ((rucksackGroup[0][i] == rucksackGroup[1][j]) &&
-                    (rucksackGroup[0][i] == rucksackGroup[2][k])) {
-
-                    return mapPriority((int) rucksackGroup[0][i]);
-                }
+        if ((itemTypeGroupTwo = strchr(rucksackGroup[1], potentialBadge)) != NULL) {
+            if ((itemTypeGroupThree = strchr(rucksackGroup[2], potentialBadge)) != NULL) {
+                return mapPriority(itemTypeGroupTwo[0]);
             }
         }
     }
