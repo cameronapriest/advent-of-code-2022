@@ -111,17 +111,16 @@ void parseFilePartTwo(FILE *inputFile) {
 }
 
 int findPriorityOfMatchingTriplet(char rucksackGroup[3][MAX_RUCKSACK_SIZE]) {
-    char *itemTypeGroupTwo;
-    char *itemTypeGroupThree;
+    char *itemType;
     int potentialBadge;
     
     /* find matching triplet of item type across all three rucksacks in the group */
     for (int i = 0; i < (int) strlen(rucksackGroup[0]) - 1; i++) {
         potentialBadge = (int) rucksackGroup[0][i];
 
-        if ((itemTypeGroupTwo = strchr(rucksackGroup[1], potentialBadge)) != NULL) {
-            if ((itemTypeGroupThree = strchr(rucksackGroup[2], potentialBadge)) != NULL) {
-                return mapPriority(itemTypeGroupTwo[0]);
+        if ((itemType = strchr(rucksackGroup[1], potentialBadge)) != NULL) {
+            if ((itemType = strchr(rucksackGroup[2], potentialBadge)) != NULL) {
+                return mapPriority(itemType[0]);
             }
         }
     }
