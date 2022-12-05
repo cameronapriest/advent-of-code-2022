@@ -63,9 +63,8 @@ void parseFile(FILE *inputFile) {
 }
 
 int checkForFullyOverlappingPairs(int *nums) {
-    if (nums[0] >= nums[2] && nums[1] <= nums[3]) {
-        return 1;
-    } else if (nums[0] <= nums[2] && nums[1] >= nums[3]) {
+    if ((nums[0] >= nums[2] && nums[1] <= nums[3]) ||
+        (nums[0] <= nums[2] && nums[1] >= nums[3])) {
         return 1;
     }
 
@@ -73,9 +72,7 @@ int checkForFullyOverlappingPairs(int *nums) {
 }
 
 int checkForOverlappingPairs(int *nums) {
-    if (nums[0] > nums[3]) {
-        return 0;
-    } else if (nums[1] < nums[2]) {
+    if (nums[0] > nums[3] || nums[1] < nums[2]) {
         return 0;
     }
 
