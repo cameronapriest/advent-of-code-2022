@@ -16,27 +16,23 @@ int main(void) {
     int i = 0;
 
     while (fgets(line, LINE_LEN, inputFile)) {
-        while (i < LINE_LEN - 4) {
+        for ( ; i < LINE_LEN - 4; i++) {
             if (findSequenceOfDifferentCharacters(&line[i], 4) == 1) {
                 printf("%d\n", i + 4);
                 break;
             }
-
-            i++;
         }
 
-        while (i < LINE_LEN - 4) {
+        for ( ; i < LINE_LEN - 4; i++) {
             if (findSequenceOfDifferentCharacters(&line[i], 14) == 1) {
                 printf("%d\n", i + 14);
                 break;
             }
-
-            i++;
         }
     }
 
     fclose(inputFile);
-    
+
     return 0;
 }
 
