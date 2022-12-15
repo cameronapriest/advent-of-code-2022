@@ -9,15 +9,15 @@
 #define LINE_SIZE 250
 
 /* example */
-/* #define X_MIN 494
+#define X_MIN 494
 #define X_MAX 503
-#define Y_MAX 9 */
+#define Y_MAX 9
 
-#define X_MIN 492 //494
-#define X_MAX 562 //503
+// #define X_MIN 492 //494
+// #define X_MAX 562 //503
 #define X_SIZE (X_MAX - X_MIN + 1)
 #define Y_MIN 0
-#define Y_MAX 173 //9
+// #define Y_MAX 173 //9
 #define Y_SIZE (Y_MAX - Y_MIN + 1)
 #define X_OFFSET X_MIN
 
@@ -27,11 +27,12 @@ typedef struct {
 } coord;
 
 void drawPath(coord curr, coord prev, char drawing[Y_SIZE][X_SIZE]);
+void drawCave(coord sandOrigin, char drawing[Y_SIZE][X_SIZE]);
 void findDomainAndRange(int *xMin, int *xMax, int *yMin, int *yMax, coord curr);
 
 
 int main(void) {
-    FILE *input = fopen("input.txt", "r");
+    FILE *input = fopen("example.txt", "r");
     char line[LINE_SIZE];
     char *token;
     coord curr, prev, sandOrigin;
@@ -79,20 +80,27 @@ int main(void) {
         printf("-----------------------\n");
     }
 
-    printf("\n");
-    for (int y = 0; y < Y_SIZE; y++) {
-        for (int x = 0; x < X_SIZE; x++) {
-            if (drawing[y][x] == '#') {
-                printf("#");
-            } else if (x == sandOrigin.x && y == sandOrigin.y) {
-                printf("+");
-            } else {
-                printf(".");
-            }
+    drawCave(sandOrigin, drawing);
+
+    int unit = 1;
+    int row = 0;
+
+    while (1) {
+        row = sandOrigin.y;
+        while (drawing[row + 1][sandOrigin.x] != '#' && drawing[row + 1][sandOrigin.x] != 'o') {
+            row++;
         }
-        printf("\n");
+
+        /* if (drawing[row + 1][sandOrigin.x - 1] != '#' && drawing[row + 1][sandOrigin.x - 1] != 'o') {
+            drawing[row + 1][sandOrigin.x - 1] = 'o';
+        } else if (drawing[row + 1][sandOrigin.x + 1] != '#' && drawing[row + 1][sandOrigin.x + 1] != 'o') {
+            drawing[row + 1][sandOrigin.x + 1] = 'o';
+        } */
+
+        drawing[row][sandOrigin.x] = 'o';
+        drawCave(sandOrigin, drawing);
+        unit++;
     }
-    printf("\n");
 
     //printf("x: %d to %d\ny: %d to %d\n", xMin, xMax, yMin, yMax);
 
@@ -125,6 +133,25 @@ void drawPath(coord curr, coord prev, char drawing[Y_SIZE][X_SIZE]) {
             }
         }
     }
+}
+
+void drawCave(coord sandOrigin, char drawing[Y_SIZE][X_SIZE]) {
+    printf("\n");
+    for (int y = 0; y < Y_SIZE; y++) {
+        for (int x = 0; x < X_SIZE; x++) {
+            if (drawing[y][x] == '#') {
+                printf("#");
+            } else if (x == sandOrigin.x && y == sandOrigin.y) {
+                printf("+");
+            } else if (drawing[y][x] == 'o') {
+                printf("o");
+            } else {
+                printf(".");
+            }
+        }
+        printf("\n");
+    }
+    printf("\n");
 }
 
 void findDomainAndRange(int *xMin, int *xMax, int *yMin, int *yMax, coord curr) {
